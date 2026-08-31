@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; } a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      padding: 64px 96px;
+      display: flex; flex-direction: column;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: oklch(68% 0.13 70); margin: 0 0 16px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: 36px; line-height: 1.2; margin: 0 0 10px; max-width: 900px; text-wrap: balance;
+    }
+    .key {
+      font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: oklch(48% 0.02 60);
+      margin: 0 0 22px;
+    }
+    table { border-collapse: collapse; width: 100%; font-size: 15px; }
+    thead th {
+      font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.05em;
+      text-transform: uppercase; text-align: left; padding: 10px 18px;
+      color: oklch(45% 0.02 60); border-bottom: 2px solid oklch(80% 0.02 75);
+    }
+    thead th.ours { color: oklch(50% 0.11 70); }
+    tbody th { text-align: left; font-weight: 600; font-size: 15px; padding: 14px 18px; vertical-align: top; white-space: nowrap; color: oklch(23% 0.02 60); }
+    td { padding: 14px 18px; vertical-align: top; border-bottom: 1px solid oklch(89% 0.015 75); line-height: 1.45; }
+    tbody tr:nth-child(even) { background: oklch(98% 0.006 80); }
+    td.base { color: oklch(45% 0.02 60); }
+    td.ours { font-weight: 500; }
+    tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+    .footer {
+      position: absolute; bottom: 32px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(55% 0.02 60);
+    }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">What We Changed</p>
+  <h1>Same paper, same goals &mdash; different assumptions about the world</h1>
+  <p class="key"><b>ROA</b> = Revolution Optimization Algorithm, the paper's method &nbsp;&middot;&nbsp; <b>MBFD</b> = Modified Best-Fit Decreasing, a well-known bin-packing heuristic (not from the paper)</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 18%">Aspect</th>
+        <th style="width: 38%">Base paper (ROA)</th>
+        <th class="ours" style="width: 44%">Our approach</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Scheduling model</th>
+        <td class="base">One-shot: assign a batch of tasks once, then stop</td>
+        <td class="ours">Continuous loop: monitor &rarr; migrate &rarr; consolidate &rarr; power down, on repeat</td>
+      </tr>
+      <tr>
+        <th>Core algorithm</th>
+        <td class="base">ROA &mdash; a population-based metaheuristic, needs many iterations to converge</td>
+        <td class="ours">MBFD bin-packing &mdash; fast enough to re-run every control-loop cycle</td>
+      </tr>
+      <tr>
+        <th>Objective function</th>
+        <td class="base">Energy + temperature + carbon (3 fixed weighted terms)</td>
+        <td class="ours">Same 3 terms + a 4th migration-cost term; a task only moves if it's worth it</td>
+      </tr>
+      <tr>
+        <th>Validation</th>
+        <td class="base">CloudSim simulation only</td>
+        <td class="ours">Offline simulator + a real Kubernetes cluster with real pods</td>
+      </tr>
+      <tr>
+        <th>Node power action</th>
+        <td class="base">Not modeled &mdash; the paper never touches power state</td>
+        <td class="ours">Idle nodes are actually stopped and restarted (real Docker containers)</td>
+      </tr>
+      <tr>
+        <th>Baselines compared</th>
+        <td class="base">GA, PSO, ACO</td>
+        <td class="ours">Naive round-robin, tested ourselves &mdash; GA/PSO/ACO reproduction is planned, not done yet</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <span>Green Cloud Scheduler</span>
+    <span>03</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

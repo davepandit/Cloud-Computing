@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; } a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      padding: 64px 96px 44px;
+      display: flex; flex-direction: column;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: oklch(68% 0.13 70); margin: 0 0 12px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: 34px; line-height: 1.2; margin: 0 0 32px; max-width: 900px;
+    }
+    .cols { display: flex; gap: 28px; flex: 1; }
+    .col { flex: 1; display: flex; flex-direction: column; border-radius: 10px; padding: 20px; }
+    .col.done { background: oklch(95% 0.025 150); border: 1px solid oklch(75% 0.07 150); }
+    .col.live { background: oklch(95% 0.035 70); border: 1px solid oklch(70% 0.1 70); }
+    .col.todo { background: oklch(97% 0.005 80); border: 1px solid oklch(85% 0.015 75); }
+    .chip { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; align-self: flex-start; margin-bottom: 16px; font-weight: 500; }
+    .col.done .chip { background: oklch(55% 0.11 150); color: white; }
+    .col.live .chip { background: oklch(60% 0.13 70); color: white; }
+    .col.todo .chip { background: oklch(80% 0.01 75); color: oklch(35% 0.02 60); }
+    .item { font-size: 14.5px; line-height: 1.5; margin-bottom: 14px; padding-left: 18px; position: relative; }
+    .item::before { content: ""; position: absolute; left: 0; top: 7px; width: 7px; height: 7px; border-radius: 2px; }
+    .col.done .item::before { background: oklch(55% 0.11 150); }
+    .col.live .item::before { background: oklch(60% 0.13 70); }
+    .col.todo .item::before { background: oklch(70% 0.01 75); }
+    .footer {
+      position: absolute; bottom: 28px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(55% 0.02 60);
+    }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">Where Things Stand</p>
+  <h1>Honest status check</h1>
+
+  <div class="cols">
+    <div class="col done">
+      <div class="chip">Done</div>
+      <div class="item">Offline simulator: workload generator, all 3 schedulers, power/temperature/carbon metrics</div>
+      <div class="item">Full experiment sweep, 500&ndash;3,000 tasks, with real recorded results</div>
+      <div class="item">10 automated tests passing (capacity safety + the novelty claims themselves)</div>
+    </div>
+    <div class="col live">
+      <div class="chip">Code done &middot; live-tested</div>
+      <div class="item">Live Kubernetes controller: real binding, real migration, real power-down</div>
+      <div class="item">Verified running end-to-end on a real 5-node cluster</div>
+    </div>
+    <div class="col todo">
+      <div class="chip">Left for final term</div>
+      <div class="item">CloudSim reproduction of the paper's GA / PSO / ACO numbers (stretch goal)</div>
+      <div class="item">Short-horizon load forecasting</div>
+      <div class="item">Carbon-intensity-aware time-shifting (free grid-carbon API)</div>
+      <div class="item">Live Prometheus + Grafana dashboard</div>
+      <div class="item">Long-running, fully unattended automation</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Green Cloud Scheduler</span>
+    <span>10</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

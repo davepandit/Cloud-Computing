@@ -1,0 +1,17 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Problem.dc.html", "x": 1400, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Novelty.dc.html", "x": 2800, "y": 0, "w": 1280, "h": 720 },
+    { "file": "Methodology.dc.html", "x": 4200, "y": 0, "w": 1280, "h": 720 },
+    { "file": "WhyContinuous.dc.html", "x": 0, "y": 840, "w": 1280, "h": 720 },
+    { "file": "Architecture.dc.html", "x": 1400, "y": 840, "w": 1280, "h": 720 },
+    { "file": "Schedulers.dc.html", "x": 2800, "y": 840, "w": 1280, "h": 720 },
+    { "file": "Results.dc.html", "x": 4200, "y": 840, "w": 1280, "h": 720 },
+    { "file": "LiveK8s.dc.html", "x": 0, "y": 1680, "w": 1280, "h": 720 },
+    { "file": "Status.dc.html", "x": 1400, "y": 1680, "w": 1280, "h": 720 },
+    { "file": "NextSteps.dc.html", "x": 2800, "y": 1680, "w": 1280, "h": 720 },
+    { "file": "Closing.dc.html", "x": 4200, "y": 1680, "w": 1280, "h": 720 }
+  ],
+  "launch": { "view": "focused", "file": "Main.dc.html" }
+}

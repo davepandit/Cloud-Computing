@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; } a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 96px;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 14px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: oklch(68% 0.13 70); margin: 0 0 24px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-weight: 600;
+      font-size: 64px; margin: 0 0 28px;
+    }
+    .summary { font-size: 19px; color: oklch(42% 0.02 60); max-width: 620px; line-height: 1.6; margin: 0; }
+    .summary b { color: oklch(23% 0.02 60); font-weight: 600; }
+    .rule { width: 72px; height: 3px; background: oklch(68% 0.13 70); margin: 0 0 28px; border-radius: 2px; }
+    .footer {
+      position: absolute; bottom: 56px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: oklch(45% 0.02 60);
+    }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">Questions Welcome</p>
+  <h1>Thank you</h1>
+  <div class="rule"></div>
+  <p class="summary">A scheduler that <b>keeps watching</b> instead of deciding once, moves work <b>only when it's worth it</b>, and <b>actually powers hardware down</b> &mdash; verified in simulation and on a real cluster.</p>
+
+  <div class="footer">
+    <div>
+      <div>Debajyoti Pandit &middot; 231IT020</div>
+      <div>Ashab Muhammed &middot; 231IT011</div>
+    </div>
+    <span>Green Cloud Scheduler &middot; Midsem Progress Review</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

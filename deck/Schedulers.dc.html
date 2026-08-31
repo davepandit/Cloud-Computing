@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; } a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      padding: 64px 96px 48px;
+      display: flex; flex-direction: column;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: oklch(68% 0.13 70); margin: 0 0 12px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: 34px; line-height: 1.2; margin: 0 0 32px; max-width: 900px;
+    }
+    .cols { display: flex; gap: 32px; flex: 1; }
+    .col { flex: 1; display: flex; flex-direction: column; background: oklch(99% 0.004 80); border: 1px solid oklch(88% 0.015 75); border-radius: 10px; padding: 20px; }
+    .col-name { font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .col-tag { font-size: 12.5px; color: oklch(48% 0.02 60); margin-bottom: 16px; min-height: 32px; }
+    .servers { display: flex; gap: 6px; margin-bottom: 14px; }
+    .server { flex: 1; height: 46px; border-radius: 4px; border: 1.5px solid oklch(80% 0.02 75); position: relative; overflow: hidden; }
+    .server .fill { position: absolute; bottom: 0; left: 0; right: 0; }
+    .server.off { background: repeating-linear-gradient(45deg, oklch(93% 0.008 80), oklch(93% 0.008 80) 4px, oklch(89% 0.01 80) 4px, oklch(89% 0.01 80) 8px); border-style: dashed; }
+    .row-label { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: oklch(55% 0.02 60); margin: 10px 0 4px; text-align: center; }
+    .behavior { margin-top: auto; font-size: 14px; line-height: 1.5; color: oklch(35% 0.02 60); padding-top: 12px; border-top: 1px solid oklch(90% 0.012 75); }
+    .behavior b { color: oklch(23% 0.02 60); }
+    .footer {
+      position: absolute; bottom: 28px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(55% 0.02 60);
+    }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">The Three Schedulers</p>
+  <h1>Same servers, three different habits</h1>
+
+  <div class="cols">
+    <div class="col">
+      <div class="col-name">round-robin</div>
+      <div class="col-tag">the naive baseline everyone starts with</div>
+      <div class="row-label">every server, always on</div>
+      <div class="servers">
+        <div class="server"><div class="fill" style="height:45%;background:oklch(75% 0.05 60);"></div></div>
+        <div class="server"><div class="fill" style="height:40%;background:oklch(75% 0.05 60);"></div></div>
+        <div class="server"><div class="fill" style="height:42%;background:oklch(75% 0.05 60);"></div></div>
+        <div class="server"><div class="fill" style="height:38%;background:oklch(75% 0.05 60);"></div></div>
+        <div class="server"><div class="fill" style="height:44%;background:oklch(75% 0.05 60);"></div></div>
+      </div>
+      <div class="behavior"><b>Never migrates.</b> Hands every new task to the next server in line, no matter how busy it is. Spreads load thin, forever &mdash; nobody ever gets to sleep.</div>
+    </div>
+
+    <div class="col">
+      <div class="col-name">mbfd (plain)</div>
+      <div class="col-tag">tight packing, recomputed from zero every round</div>
+      <div class="row-label">packed tight, but reshuffled</div>
+      <div class="servers">
+        <div class="server"><div class="fill" style="height:92%;background:oklch(60% 0.13 70);"></div></div>
+        <div class="server"><div class="fill" style="height:88%;background:oklch(60% 0.13 70);"></div></div>
+        <div class="server off"></div>
+        <div class="server off"></div>
+        <div class="server off"></div>
+      </div>
+      <div class="row-label">next round: reshuffled again</div>
+      <div class="servers">
+        <div class="server off"></div>
+        <div class="server"><div class="fill" style="height:90%;background:oklch(60% 0.13 70);"></div></div>
+        <div class="server"><div class="fill" style="height:85%;background:oklch(60% 0.13 70);"></div></div>
+        <div class="server off"></div>
+        <div class="server off"></div>
+      </div>
+      <div class="behavior"><b>Packs tight, but thrashes.</b> Ignores where tasks already were and re-solves from scratch &mdash; so tasks jump servers even when nothing needed to change.</div>
+    </div>
+
+    <div class="col">
+      <div class="col-name">mbfd-migration</div>
+      <div class="col-tag">our novelty &mdash; tight packing that stays put</div>
+      <div class="row-label">packed tight, same as before</div>
+      <div class="servers">
+        <div class="server"><div class="fill" style="height:92%;background:oklch(55% 0.11 150);"></div></div>
+        <div class="server"><div class="fill" style="height:88%;background:oklch(55% 0.11 150);"></div></div>
+        <div class="server off"></div>
+        <div class="server off"></div>
+        <div class="server off"></div>
+      </div>
+      <div class="row-label">next round: barely moved</div>
+      <div class="servers">
+        <div class="server"><div class="fill" style="height:92%;background:oklch(55% 0.11 150);"></div></div>
+        <div class="server"><div class="fill" style="height:90%;background:oklch(55% 0.11 150);"></div></div>
+        <div class="server off"></div>
+        <div class="server off"></div>
+        <div class="server off"></div>
+      </div>
+      <div class="behavior"><b>Packs tight, and stays.</b> A task only moves if the energy saved is worth more than the disruption of moving it. Same result, far less churn.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Green Cloud Scheduler</span>
+    <span>07</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

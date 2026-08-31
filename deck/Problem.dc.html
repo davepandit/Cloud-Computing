@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; } a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      padding: 72px 96px;
+      display: flex; flex-direction: column;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: oklch(68% 0.13 70); margin: 0 0 18px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: 44px; line-height: 1.2; margin: 0 0 20px; max-width: 880px; text-wrap: balance;
+    }
+    .lede { font-size: 20px; color: oklch(45% 0.02 60); max-width: 720px; line-height: 1.6; margin: 0 0 8px; }
+    .diagram { display: flex; gap: 96px; align-items: flex-end; margin-top: 56px; }
+    .server-col { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .server-label { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: oklch(45% 0.02 60); text-align: center; }
+    .server-label b { color: oklch(23% 0.02 60); font-size: 15px; }
+    .gauge-track { width: 64px; height: 220px; background: oklch(99% 0.004 80); border: 2px solid oklch(85% 0.015 75); border-radius: 8px; position: relative; overflow: hidden; }
+    .gauge-fill { position: absolute; bottom: 0; left: 0; right: 0; border-radius: 0 0 6px 6px; }
+    .power-note { font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 500; margin-top: 12px; }
+    .callout {
+      margin-top: auto; margin-bottom: 8px; background: oklch(93% 0.035 70);
+      border-left: 3px solid oklch(68% 0.13 70); border-radius: 4px;
+      padding: 18px 24px; font-family: 'Source Serif 4', Georgia, serif; font-style: italic;
+      font-size: 20px; max-width: 900px; color: oklch(30% 0.03 60);
+    }
+    .footer {
+      position: absolute; bottom: 32px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(55% 0.02 60);
+    }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">The Problem</p>
+  <h1>Idle servers still draw almost full power</h1>
+  <p class="lede">A physical machine's power draw does not scale down with how little work it's doing &mdash; and the base paper's scheduler only ever decides once, then never looks back.</p>
+
+  <div class="diagram">
+    <div class="server-col">
+      <div class="gauge-track">
+        <div class="gauge-fill" style="height: 100%; background: oklch(68% 0.13 70);"></div>
+      </div>
+      <div class="power-note">250W</div>
+      <div class="server-label"><b>100% load</b><br>fully busy server</div>
+    </div>
+    <div class="server-col">
+      <div class="gauge-track">
+        <div class="gauge-fill" style="height: 76%; background: oklch(75% 0.09 70);"></div>
+      </div>
+      <div class="power-note">193W</div>
+      <div class="server-label"><b>10% load</b><br>&ldquo;idling&rdquo; server</div>
+    </div>
+    <div style="max-width: 380px; font-size: 17px; line-height: 1.6; color: oklch(35% 0.02 60); padding-bottom: 40px;">
+      Only <b>10% of the work</b>, but still <b>77% of the power bill</b> &mdash; using the base paper's own idle/peak power figures (175W&ndash;250W per host).
+    </div>
+  </div>
+
+  <div class="callout">
+    &ldquo;An algorithm that assigns tasks once and walks away can't fix this &mdash; by the time load has shifted, nobody is watching.&rdquo;
+  </div>
+
+  <div class="footer">
+    <span>Green Cloud Scheduler</span>
+    <span>02</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

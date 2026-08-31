@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; } a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      padding: 64px 96px 44px;
+      display: flex; flex-direction: column;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: oklch(68% 0.13 70); margin: 0 0 12px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: 34px; line-height: 1.2; margin: 0 0 40px; max-width: 900px;
+    }
+    .timeline { position: relative; padding-left: 40px; flex: 1; }
+    .timeline::before {
+      content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px;
+      background: oklch(85% 0.02 75);
+    }
+    .step { position: relative; padding-bottom: 28px; }
+    .step:last-child { padding-bottom: 0; }
+    .dot {
+      position: absolute; left: -40px; top: 3px; width: 16px; height: 16px; border-radius: 50%;
+      background: oklch(99% 0.004 80); border: 2.5px solid oklch(68% 0.13 70);
+    }
+    .step-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 5px; }
+    .step-num { font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 20px; color: oklch(68% 0.13 70); }
+    .step-title { font-size: 18px; font-weight: 600; }
+    .step-desc { font-size: 14.5px; color: oklch(45% 0.02 60); line-height: 1.55; max-width: 900px; }
+    .footer {
+      position: absolute; bottom: 28px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(55% 0.02 60);
+    }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">Methodology</p>
+  <h1>How we got here, step by step</h1>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="dot"></div>
+      <div class="step-head"><span class="step-num">1</span><span class="step-title">Read the base paper, find the gap</span></div>
+      <div class="step-desc">ROA optimizes energy + temperature + carbon &mdash; but only once, on a fixed batch of tasks. It never revisits its own decision as load changes.</div>
+    </div>
+    <div class="step">
+      <div class="dot"></div>
+      <div class="step-head"><span class="step-num">2</span><span class="step-title">Re-implement its equations as a standalone simulator</span></div>
+      <div class="step-desc">The same power, energy, and carbon formulas from the paper, rebuilt in Python, so our results are directly comparable to its own.</div>
+    </div>
+    <div class="step">
+      <div class="dot"></div>
+      <div class="step-head"><span class="step-num">3</span><span class="step-title">Build three interchangeable schedulers</span></div>
+      <div class="step-desc">Round-robin, plain best-fit packing, and our migration-cost-aware version &mdash; all tested under identical synthetic workloads for a fair comparison.</div>
+    </div>
+    <div class="step">
+      <div class="dot"></div>
+      <div class="step-head"><span class="step-num">4</span><span class="step-title">Run a controlled experiment sweep</span></div>
+      <div class="step-desc">500 to 3,000 concurrent tasks, mirroring the paper's own evaluation range, with automated tests locking in the findings.</div>
+    </div>
+    <div class="step">
+      <div class="dot"></div>
+      <div class="step-head"><span class="step-num">5</span><span class="step-title">Validate on a real Kubernetes cluster</span></div>
+      <div class="step-desc">Port the exact same scheduler code, unmodified, onto a live 5-node cluster &mdash; to prove the result isn't just a simulator artifact.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Green Cloud Scheduler</span>
+    <span>04</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; } a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      padding: 64px 96px 48px;
+      display: flex; flex-direction: column;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: oklch(68% 0.13 70); margin: 0 0 12px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: 34px; line-height: 1.2; margin: 0 0 32px; max-width: 900px;
+    }
+    .diagram { position: relative; flex: 1; }
+    .box {
+      position: absolute; background: oklch(99% 0.004 80); border: 1.5px solid oklch(82% 0.02 75);
+      border-radius: 8px; padding: 14px 16px; font-size: 14px; line-height: 1.35;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .box .label { font-weight: 600; margin-bottom: 3px; }
+    .box .sub { color: oklch(48% 0.02 60); font-size: 12.5px; }
+    .box.core { background: oklch(93% 0.05 70); border-color: oklch(60% 0.13 70); border-width: 2px; text-align: center; }
+    .badge { position: absolute; top: -11px; right: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; }
+    .badge.done { background: oklch(60% 0.1 150); color: white; }
+    .badge.live { background: oklch(60% 0.13 70); color: white; }
+    .track-label { position: absolute; font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: oklch(48% 0.02 60); }
+    svg.connectors { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: visible; }
+    .footer {
+      position: absolute; bottom: 28px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(55% 0.02 60);
+    }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">System Architecture</p>
+  <h1>Two tracks, one scheduler brain</h1>
+
+  <div class="diagram">
+    <svg class="connectors" viewBox="0 0 1088 507" width="1088" height="507">
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="oklch(70% 0.02 70)"/>
+        </marker>
+      </defs>
+      <!-- top track: generator -> core -->
+      <path d="M 190 78 L 400 210" stroke="oklch(70% 0.02 70)" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+      <!-- core -> metrics -->
+      <path d="M 640 210 L 898 198" stroke="oklch(70% 0.02 70)" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+      <!-- metrics -> plots -->
+      <path d="M 993 160 L 993 116" stroke="oklch(70% 0.02 70)" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+      <!-- bottom track: cluster -> core -->
+      <path d="M 190 429 L 400 240" stroke="oklch(70% 0.02 70)" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+      <!-- core -> act -->
+      <path d="M 640 240 L 898 429" stroke="oklch(70% 0.02 70)" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    </svg>
+
+    <div class="track-label" style="top: 8px; left: 0;">Offline simulator</div>
+    <div class="box" style="top: 40px; left: 0; width: 190px; height: 76px;">
+      <span class="badge done">DONE</span>
+      <div class="label">Workload generator</div>
+      <div class="sub">synthetic tasks: CPU, memory, arrival, duration</div>
+    </div>
+    <div class="box" style="top: 160px; right: 0; width: 190px; height: 76px;">
+      <span class="badge done">DONE</span>
+      <div class="label">Power &middot; carbon metrics</div>
+      <div class="sub">the paper's own equations</div>
+    </div>
+    <div class="box" style="top: 40px; right: 0; width: 190px; height: 76px;">
+      <span class="badge done">DONE</span>
+      <div class="label">Plots &amp; results</div>
+      <div class="sub">experiments/run_experiment.py</div>
+    </div>
+
+    <div class="box core" style="top: 175px; left: 400px; width: 240px; height: 70px;">
+      <div class="label">MBFD + migration-cost scheduler</div>
+      <div class="sub">the exact same code, both tracks</div>
+    </div>
+
+    <div class="track-label" style="bottom: 8px; left: 0;">Live control plane</div>
+    <div class="box" style="bottom: 40px; left: 0; width: 190px; height: 76px;">
+      <span class="badge live">LIVE-TESTED</span>
+      <div class="label">Real Kubernetes cluster</div>
+      <div class="sub">5-node kind cluster, real pods</div>
+    </div>
+    <div class="box" style="bottom: 40px; right: 0; width: 190px; height: 76px;">
+      <span class="badge live">LIVE-TESTED</span>
+      <div class="label">Bind &middot; migrate &middot; power</div>
+      <div class="sub">real Binding API + docker stop/start</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Green Cloud Scheduler</span>
+    <span>06</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

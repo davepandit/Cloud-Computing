@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; } a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      padding: 64px 96px 44px;
+      display: flex; flex-direction: column;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: oklch(68% 0.13 70); margin: 0 0 12px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: 36px; line-height: 1.2; margin: 0 0 10px; max-width: 900px;
+    }
+    .sub { font-size: 15.5px; color: oklch(45% 0.02 60); max-width: 780px; line-height: 1.5; margin: 0 0 30px; }
+    .sub b { color: oklch(23% 0.02 60); font-weight: 600; }
+    .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 22px; }
+    .row.second { display: flex; justify-content: center; gap: 22px; }
+    .card {
+      background: oklch(99% 0.004 80); border: 1px solid oklch(88% 0.015 75);
+      border-top: 3px solid oklch(68% 0.13 70); border-radius: 10px;
+      padding: 20px 20px 18px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .row.second .card { width: 330px; }
+    .card-title { font-size: 16.5px; font-weight: 600; line-height: 1.3; }
+    .card-desc { font-size: 13px; color: oklch(45% 0.02 60); line-height: 1.5; flex: 1; }
+    .card-tag {
+      align-self: flex-start; margin-top: 4px; font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
+      color: oklch(50% 0.02 60); border: 1px solid oklch(80% 0.02 75); border-radius: 999px;
+      padding: 2px 9px;
+    }
+    .closing-line {
+      margin-top: auto; font-family: 'Source Serif 4', Georgia, serif; font-style: italic;
+      font-size: 16.5px; color: oklch(38% 0.03 60);
+    }
+    .footer {
+      position: absolute; bottom: 28px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(55% 0.02 60);
+    }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">Future Work</p>
+  <h1>Where this goes next</h1>
+  <p class="sub">The hard part is proven: a scheduler that saves real energy without thrashing, running on real hardware. <b>Everything below builds directly on that</b> &mdash; no rewrites needed, just new capability layered on top.</p>
+
+  <div class="row">
+    <div class="card">
+      <div class="card-title">Predict, not just react</div>
+      <div class="card-desc">Add short-horizon load forecasting, so the scheduler starts anticipating demand instead of only responding after it arrives.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Chase the cleanest hour</div>
+      <div class="card-desc">Carbon-intensity-aware scheduling &mdash; shift flexible jobs to run when the power grid itself is running cleaner, using a free public API.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Watch it work, live</div>
+      <div class="card-desc">A Prometheus + Grafana dashboard showing cost and carbon savings update in real time, not just in a spreadsheet afterward.</div>
+    </div>
+  </div>
+
+  <div class="row second">
+    <div class="card">
+      <div class="card-title">A fair head-to-head</div>
+      <div class="card-desc">Reproduce the base paper's own GA, PSO, and ACO baselines in CloudSim, for one complete side-by-side comparison table.</div>
+      <div class="card-tag">stretch goal</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Set it, and let it run</div>
+      <div class="card-desc">Long-running, fully unattended operation &mdash; the control loop running for hours with nobody watching it.</div>
+    </div>
+  </div>
+
+  <p class="closing-line">&ldquo;Each of these is an addition, not a fix &mdash; the foundation already works.&rdquo;</p>
+
+  <div class="footer">
+    <span>Green Cloud Scheduler</span>
+    <span>11</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

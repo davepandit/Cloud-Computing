@@ -1,0 +1,14 @@
+# kind cluster for the Green Cloud Scheduler live proof-of-concept.
+# 1 control-plane node (never scheduled onto, never powered down) + 4 worker
+# nodes the controller is free to consolidate onto and power down.
+#
+# Create with:  ../.tools/kind.exe create cluster --config kind-config.yaml --name green-cloud
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: green-cloud
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
+  - role: worker
+  - role: worker

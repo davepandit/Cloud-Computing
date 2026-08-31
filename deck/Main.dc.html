@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; }
+    a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 96px;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+      font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: oklch(68% 0.13 70); margin: 0 0 28px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-style: italic; font-weight: 600;
+      font-size: 76px; line-height: 1.04; margin: 0 0 22px; max-width: 900px;
+      text-wrap: balance;
+    }
+    .subtitle {
+      font-size: 22px; color: oklch(45% 0.02 60); max-width: 620px; line-height: 1.5; margin: 0;
+    }
+    .rule { width: 72px; height: 3px; background: oklch(68% 0.13 70); margin: 40px 0 40px; border-radius: 2px; }
+    .footer {
+      position: absolute; bottom: 56px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: oklch(45% 0.02 60);
+    }
+    .team { display: flex; flex-direction: column; gap: 4px; }
+    .rack { position: absolute; right: 96px; bottom: 96px; opacity: 0.9; }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">Midsem Progress Review &middot; Cloud Computing</p>
+  <h1>Green Cloud<br>Scheduler</h1>
+  <div class="rule"></div>
+  <p class="subtitle">Energy-Aware Workload Consolidation for IaaS Control Planes</p>
+
+  <svg class="rack" width="220" height="180" viewBox="0 0 220 180" fill="none">
+    <rect x="20" y="10" width="70" height="160" rx="6" stroke="oklch(60% 0.02 70)" stroke-width="2"/>
+    <line x1="30" y1="35" x2="80" y2="35" stroke="oklch(60% 0.02 70)" stroke-width="2"/>
+    <line x1="30" y1="60" x2="80" y2="60" stroke="oklch(60% 0.02 70)" stroke-width="2"/>
+    <line x1="30" y1="85" x2="80" y2="85" stroke="oklch(60% 0.02 70)" stroke-width="2"/>
+    <line x1="30" y1="110" x2="80" y2="110" stroke="oklch(60% 0.02 70)" stroke-width="2"/>
+    <circle cx="72" cy="47" r="3" fill="oklch(68% 0.13 70)"/>
+    <circle cx="72" cy="72" r="3" fill="oklch(75% 0.01 80)"/>
+    <circle cx="72" cy="97" r="3" fill="oklch(68% 0.13 70)"/>
+
+    <rect x="120" y="60" width="70" height="110" rx="6" stroke="oklch(78% 0.015 75)" stroke-width="2" stroke-dasharray="4 5"/>
+    <line x1="130" y1="85" x2="180" y2="85" stroke="oklch(78% 0.015 75)" stroke-width="2"/>
+    <line x1="130" y1="110" x2="180" y2="110" stroke="oklch(78% 0.015 75)" stroke-width="2"/>
+    <circle cx="172" cy="97" r="3" fill="oklch(78% 0.015 75)"/>
+  </svg>
+
+  <div class="footer">
+    <div class="team">
+      <span>Debajyoti Pandit &middot; 231IT020</span>
+      <span>Ashab Muhammed &middot; 231IT011</span>
+    </div>
+    <span>Base paper: Reddy et al., ROA &middot; ICSCDS 2025</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

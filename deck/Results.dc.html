@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #8a5a1e; } a:hover { color: #6e4718; }
+    .slide {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      background: oklch(96% 0.012 80);
+      font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+      color: oklch(23% 0.02 60);
+      padding: 64px 96px 44px;
+      display: flex; flex-direction: column;
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: oklch(68% 0.13 70); margin: 0 0 12px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: 34px; line-height: 1.2; margin: 0 0 28px; max-width: 900px;
+    }
+    .panels { display: flex; gap: 56px; }
+    .panel { flex: 1; }
+    .panel-title { font-family: 'IBM Plex Mono', monospace; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: oklch(48% 0.02 60); margin-bottom: 18px; }
+    .bar-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .bar-name { width: 130px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; text-align: right; color: oklch(35% 0.02 60); }
+    .bar-track { flex: 1; height: 34px; background: oklch(93% 0.008 80); border-radius: 4px; position: relative; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px 0 0 4px; display: flex; align-items: center; }
+    .bar-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; margin-left: 10px; white-space: nowrap; }
+    .bar-value.outside { position: absolute; left: 6px; color: oklch(35% 0.02 60); }
+    .callout {
+      margin-top: 28px; background: oklch(93% 0.035 70);
+      border-left: 3px solid oklch(68% 0.13 70); border-radius: 4px;
+      padding: 18px 26px; font-family: 'Source Serif 4', Georgia, serif; font-style: italic;
+      font-size: 19px; color: oklch(30% 0.03 60); line-height: 1.5;
+    }
+    .footnote { margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: oklch(55% 0.02 60); }
+    .footer {
+      position: absolute; bottom: 28px; left: 96px; right: 96px;
+      display: flex; justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(55% 0.02 60);
+    }
+  </style>
+</helmet>
+<div class="slide">
+  <p class="eyebrow">Results at 3,000 Concurrent Tasks</p>
+  <h1>Near-identical energy savings, 99% fewer disruptions</h1>
+
+  <div class="panels">
+    <div class="panel">
+      <div class="panel-title">Energy consumption (watts)</div>
+      <div class="bar-row">
+        <div class="bar-name">round-robin</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%;background:oklch(78% 0.03 60);"><span class="bar-value" style="color:oklch(30% 0.02 60);">18,716 W</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">mbfd</div>
+        <div class="bar-track"><div class="bar-fill" style="width:51.6%;background:oklch(60% 0.13 70);"><span class="bar-value" style="color:white;">9,658 W</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">mbfd-migration</div>
+        <div class="bar-track"><div class="bar-fill" style="width:52.9%;background:oklch(55% 0.11 150);"><span class="bar-value" style="color:white;">9,905 W</span></div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Total migrations (whole run)</div>
+      <div class="bar-row">
+        <div class="bar-name">round-robin</div>
+        <div class="bar-track"><span class="bar-value outside">0</span></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">mbfd</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%;background:oklch(60% 0.13 70);"><span class="bar-value" style="color:white;">14,947</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">mbfd-migration</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0.13%;background:oklch(55% 0.11 150);"></div><span class="bar-value outside" style="left: 8px;">19</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">&ldquo;mbfd-migration gets within <b>~3%</b> of mbfd's energy savings using under <b>0.15%</b> of its migrations &mdash; and the gap only widens with load, since mbfd's migration count scales with task volume while ours stays flat.&rdquo;</div>
+  <div class="footnote">Validated by 10 passing automated tests &middot; full sweep across 500&ndash;3,000 tasks &middot; experiments/run_experiment.py</div>
+
+  <div class="footer">
+    <span>Green Cloud Scheduler</span>
+    <span>08</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
