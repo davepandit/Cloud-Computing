@@ -11,8 +11,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src.hosts import generate_hosts
 from src.power_model import host_utilizations
+from src.schedulers.aco import ACOScheduler
+from src.schedulers.ga import GAScheduler
 from src.schedulers.mbfd import MBFDScheduler
 from src.schedulers.mbfd_migration import MBFDMigrationScheduler
+from src.schedulers.pso import PSOScheduler
 from src.schedulers.round_robin import RoundRobinScheduler
 from src.simulate import run_simulation, summarize
 from src.workload import generate_workload
@@ -30,7 +33,15 @@ def _make_workload():
 
 def test_no_scheduler_overcommits_a_host():
     hosts, tasks = _make_workload()
-    for scheduler in (RoundRobinScheduler(hosts), MBFDScheduler(), MBFDMigrationScheduler()):
+    schedulers = (
+        RoundRobinScheduler(hosts),
+        MBFDScheduler(),
+        MBFDMigrationScheduler(),
+        GAScheduler(),
+        PSOScheduler(),
+        ACOScheduler(),
+    )
+    for scheduler in schedulers:
         prev_placement: dict[int, int] = {}
         for round_idx in range(NUM_ROUNDS):
             active = [t for t in tasks if t.is_active_at(round_idx)]

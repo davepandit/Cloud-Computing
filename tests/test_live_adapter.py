@@ -59,8 +59,10 @@ def test_mem_quantity_roundtrip():
 def test_node_to_host_converts_allocatable_capacity():
     host = node_to_host(_make_node())
     assert host.id == "green-cloud-worker"
-    assert host.cpu_capacity == 4000.0
-    assert abs(host.mem_capacity - 7947.0) < 1.0
+    # Capped at the demo node CPU/mem caps (see live_controller/config.py),
+    # not the node's real (uncapped) allocatable capacity of 4000m / ~7947Mi.
+    assert host.cpu_capacity == 1200.0
+    assert host.mem_capacity == 1500.0
 
 
 def test_pods_to_tasks_tracks_first_seen_tick_not_current_tick():

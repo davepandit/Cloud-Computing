@@ -53,3 +53,16 @@ MIGRATION_COST_WH = 5.0          # one-time energy-equivalent overhead per migra
 CONSOLIDATION_INTERVAL_ROUNDS = 5   # how often the migration-aware scheduler looks for
                                      # evacuation opportunities, instead of every round
 SPARSE_HOST_UTIL_THRESHOLD = 0.30   # a host below this utilization is a candidate to evacuate
+
+# ---- GA/PSO/ACO metaheuristic baselines tuning ----
+# These search over "which hosts are on" (not a full per-task assignment --
+# see src/schedulers/_metaheuristic_common.py), so population/iteration
+# counts stay small: each candidate evaluation costs about as much as one
+# plain-MBFD round.
+METAHEURISTIC_POPULATION_SIZE = 10
+METAHEURISTIC_ITERATIONS = 6
+PSO_INERTIA = 0.5
+PSO_COGNITIVE = 1.5
+PSO_SOCIAL = 1.5
+ACO_EVAPORATION = 0.3
+ACO_PHEROMONE_INIT = 1.0

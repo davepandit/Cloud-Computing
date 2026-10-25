@@ -26,8 +26,11 @@ import matplotlib.pyplot as plt
 
 from src import config
 from src.hosts import generate_hosts
+from src.schedulers.aco import ACOScheduler
+from src.schedulers.ga import GAScheduler
 from src.schedulers.mbfd import MBFDScheduler
 from src.schedulers.mbfd_migration import MBFDMigrationScheduler
+from src.schedulers.pso import PSOScheduler
 from src.schedulers.round_robin import RoundRobinScheduler
 from src.simulate import run_simulation, summarize
 from src.workload import generate_workload
@@ -43,15 +46,35 @@ SCHEDULER_FACTORIES = {
     "mbfd-migration": lambda hosts: MBFDMigrationScheduler(),
 }
 
+# GA/PSO/ACO re-run a whole population/iteration search every round (see
+# src/schedulers/_metaheuristic_common.py), so each round costs roughly
+# METAHEURISTIC_POPULATION_SIZE * METAHEURISTIC_ITERATIONS times one plain
+# MBFD round. NUM_ROUNDS must stay equal to the main sweep's -- workload.py
+# spreads `num_tasks` arrivals across `num_rounds`, so a different round
+# count at the same num_tasks changes arrival density and makes energy
+# numbers at that x-axis point not comparable to the other three
+# schedulers'. To keep run_experiment.py finishing in minutes instead of
+# hours, trim the number of task-volume points instead.
+METAHEURISTIC_TASK_VOLUMES = [500, 1000, 1500]
+METAHEURISTIC_NUM_ROUNDS = NUM_ROUNDS
 
-def run_all() -> list[dict]:
+METAHEURISTIC_FACTORIES = {
+    "ga": lambda hosts: GAScheduler(),
+    "pso": lambda hosts: PSOScheduler(),
+    "aco": lambda hosts: ACOScheduler(),
+}
+
+ALL_SCHEDULER_NAMES = list(SCHEDULER_FACTORIES) + list(METAHEURISTIC_FACTORIES)
+
+
+def _run_sweep(task_volumes: list[int], num_rounds: int, factories: dict) -> list[dict]:
     rows = []
-    for num_tasks in TASK_VOLUMES:
+    for num_tasks in task_volumes:
         hosts = generate_hosts(seed=SEED)
-        tasks = generate_workload(num_tasks=num_tasks, num_rounds=NUM_ROUNDS, seed=SEED)
-        for name, factory in SCHEDULER_FACTORIES.items():
+        tasks = generate_workload(num_tasks=num_tasks, num_rounds=num_rounds, seed=SEED)
+        for name, factory in factories.items():
             scheduler = factory(hosts)
-            records = run_simulation(scheduler, tasks, hosts, num_rounds=NUM_ROUNDS)
+            records = run_simulation(scheduler, tasks, hosts, num_rounds=num_rounds)
             summary = summarize(records)
             row = {"num_tasks": num_tasks, "scheduler": name, **summary}
             rows.append(row)
@@ -62,6 +85,12 @@ def run_all() -> list[dict]:
                 f"carbon_kg={summary['total_carbon_kg']:>7.3f} "
                 f"migrations={summary['total_migrations']:>6}"
             )
+    return rows
+
+
+def run_all() -> list[dict]:
+    rows = _run_sweep(TASK_VOLUMES, NUM_ROUNDS, SCHEDULER_FACTORIES)
+    rows += _run_sweep(METAHEURISTIC_TASK_VOLUMES, METAHEURISTIC_NUM_ROUNDS, METAHEURISTIC_FACTORIES)
     return rows
 
 
@@ -78,9 +107,11 @@ def write_csv(rows: list[dict]) -> Path:
 
 def plot_metric(rows: list[dict], metric: str, ylabel: str, filename: str) -> Path:
     fig, ax = plt.subplots(figsize=(7, 4.5))
-    for name in SCHEDULER_FACTORIES:
+    for name in ALL_SCHEDULER_NAMES:
         xs = [r["num_tasks"] for r in rows if r["scheduler"] == name]
         ys = [r[metric] for r in rows if r["scheduler"] == name]
+        if not xs:
+            continue
         ax.plot(xs, ys, marker="o", label=name)
     ax.set_xlabel("No. of tasks")
     ax.set_ylabel(ylabel)

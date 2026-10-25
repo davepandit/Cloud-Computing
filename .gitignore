@@ -5,3 +5,7 @@ __pycache__/
 experiments/results/*.png
 experiments/results/*.csv
 .tools/
+
+# frontend (Next.js)
+frontend/node_modules/
+frontend/.next/
